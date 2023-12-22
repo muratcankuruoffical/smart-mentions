@@ -9,10 +9,6 @@ if (typeof initializeSmartMention === 'undefined') {
             throw new Error("Smart Mentions requires jQuery. Make sure it is included before this script.");
         }
 
-        if (typeof $.fn.modal === 'undefined') {
-            throw new Error("Smart Mentions requires Bootstrap. Make sure it is included before this script.");
-        }
-        
         if (!document.querySelector(textareaSelector)) {
             throw new Error("Textarea not found. Provide a valid textarea selector.");
         }
@@ -48,33 +44,37 @@ if (typeof initializeSmartMention === 'undefined') {
 
                 mentionList.empty();
 
-                matchingMembers.forEach(function(member) {
-                    var mentionItem = $('<li>@' + member.name + '</li>');
-
-                    mentionItem.click(function() {
-                        var currentText = smartMention.html().replace(/<\/?[^>]+(>|$)/g, "");
-                        var mentionTrigger = '@';
-                        var mentionText =  member.name;
-
-                        mentionedMembers.push(member);
-
-                        var mentionedText = currentText.replace(/@(\w*)$/, mentionTrigger + mentionText);
-
-                        smartMention.html(mentionedText);
-
-                        mentionedMembers.forEach(function(mentioned) {
-                            highlightMention(mentionTrigger, mentioned.name);
-                            mentionedText = hashMention(mentionedText, mentioned);
+                if (matchingMembers.length === 0) {
+                    mentionList.append('<li>Member not found</li>');
+                } else {
+                    matchingMembers.forEach(function(member) {
+                        var mentionItem = $('<li>@' + member.name + '</li>');
+    
+                        mentionItem.click(function() {
+                            var currentText = smartMention.html().replace(/<\/?[^>]+(>|$)/g, "");
+                            var mentionTrigger = '@';
+                            var mentionText =  member.name;
+    
+                            mentionedMembers.push(member);
+    
+                            var mentionedText = currentText.replace(/@(\w*)$/, mentionTrigger + mentionText);
+    
+                            smartMention.html(mentionedText);
+    
+                            mentionedMembers.forEach(function(mentioned) {
+                                highlightMention(mentionTrigger, mentioned.name);
+                                mentionedText = hashMention(mentionedText, mentioned);
+                            });
+    
+                            $textarea.val(mentionedText);
+                                        
+                            mentionList.hide();
+                            moveCaretToEndOfMention();
                         });
-
-                        $textarea.val(mentionedText);
-                                    
-                        mentionList.hide();
-                        moveCaretToEndOfMention();
+    
+                        mentionList.append(mentionItem);
                     });
-
-                    mentionList.append(mentionItem);
-                });
+                }
 
                 mentionList.show();
             } else {
