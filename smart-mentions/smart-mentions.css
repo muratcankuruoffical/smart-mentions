@@ -2,10 +2,6 @@
     position: relative;
     display: inline-block;
 }
-.smart-mention-wrapper {
-    position: relative;
-    display: inline-block;
-}
 .mention-list {
     display: none;
     position: absolute;
