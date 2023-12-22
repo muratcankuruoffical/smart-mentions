@@ -1,0 +1,32 @@
+.mention-list {
+    position: relative;
+    display: inline-block;
+}
+.smart-mention-wrapper {
+    position: relative;
+    display: inline-block;
+}
+.mention-list {
+    display: none;
+    position: absolute;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #E1E3EA;       
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 1;
+}
+.mention-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+.mention {
+    font-size: 90%;
+    font-weight: normal;
+    padding: 0.125em 0.35em;
+    color: rgba(80, 205, 137);
+    background-color: #e8fff3;
+}
